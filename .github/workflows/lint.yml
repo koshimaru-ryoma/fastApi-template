@@ -42,24 +42,20 @@ jobs:
 
       - name: Install dependencies
         if: steps.changed-files.outputs.any_changed == 'true'
-        working-directory: src
-        run: uv sync --frozen --group dev
+        run: uv sync --frozen --group dev --directory src
 
       - name: Run Ruff linter
         if: steps.changed-files.outputs.any_changed == 'true'
-        working-directory: src
-        run: uv run ruff check --output-format=github ${{ steps.changed-files.outputs.all_changed_files }}
+        run: uv run --directory src ruff check --output-format=github ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Run Ruff format check
         if: steps.changed-files.outputs.any_changed == 'true'
-        working-directory: src
-        run: uv run ruff format --check ${{ steps.changed-files.outputs.all_changed_files }}
+        run: uv run --directory src ruff format --check ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Run Mypy
         if: steps.changed-files.outputs.any_changed == 'true'
-        working-directory: src
         run: |
-          uv run mypy ${{ steps.changed-files.outputs.all_changed_files }} 2>&1 | while IFS= read -r line; do
+          uv run --directory src mypy ${{ steps.changed-files.outputs.all_changed_files }} 2>&1 | while IFS= read -r line; do
             if [[ "$line" =~ ^([^:]+):([0-9]+):\ (error|warning):\ (.+)$ ]]; then
               file="${BASH_REMATCH[1]}"
               lineno="${BASH_REMATCH[2]}"
@@ -69,7 +65,6 @@ jobs:
             fi
             echo "$line"
           done
-          # 元のmypyの終了コードを保持
           exit ${PIPESTATUS[0]}
 
       - name: No Python files changed
