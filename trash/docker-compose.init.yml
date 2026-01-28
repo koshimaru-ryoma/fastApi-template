@@ -1,0 +1,63 @@
+# 初回セットアップ用 docker-compose
+# 使い方:
+#   docker compose -f docker-compose.init.yml run --rm init
+#
+# 実行後、./src に以下が生成される:
+#   - pyproject.toml
+#   - uv.lock
+#   - app/main.py
+
+services:
+  init:
+    build:
+      context: .
+      dockerfile: ./containers/api/Dockerfile.init
+    working_dir: /src
+    volumes:
+      - ./src:/src
+      - uv-cache:/root/.cache/uv
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        echo "=== 初回セットアップ開始 ==="
+
+        # pyproject.toml がなければ uv init
+        if [ ! -f pyproject.toml ]; then
+          echo "-> uv init 実行中..."
+          uv init --name app --no-readme
+        fi
+
+        # FastAPI と uvicorn を追加
+        echo "-> FastAPI, uvicorn を追加中..."
+        uv add fastapi "uvicorn[standard]"
+
+        # app/main.py がなければ作成
+        if [ ! -f app/main.py ]; then
+          echo "-> app/main.py を作成中..."
+          mkdir -p app
+          cat > app/main.py << 'EOF'
+        from fastapi import FastAPI
+
+        app = FastAPI()
+
+
+        @app.get("/")
+        def root():
+            return {"message": "Hello World"}
+        EOF
+          # app/__init__.py
+          touch app/__init__.py
+        fi
+
+        echo "=== セットアップ完了 ==="
+        echo ""
+        echo "生成されたファイル:"
+        ls -la
+        echo ""
+        echo "次のステップ:"
+        echo "  docker compose up"
+
+volumes:
+  uv-cache:

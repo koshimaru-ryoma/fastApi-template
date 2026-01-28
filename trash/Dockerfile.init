@@ -1,0 +1,20 @@
+# syntax=docker/dockerfile:1.7
+
+############################
+# 初回セットアップ用
+# uv.lock や pyproject.toml がない状態から
+# プロジェクトを初期化するためのイメージ
+############################
+FROM python:3.13-slim-bookworm
+
+SHELL ["sh", "-exc"]
+
+# uv binaries
+COPY --from=ghcr.io/astral-sh/uv:0.8.17 /uv /uvx /bin/
+
+ENV UV_LINK_MODE=copy \
+    UV_PYTHON_DOWNLOADS=never \
+    UV_PYTHON=python3.13
+
+WORKDIR /app
+
