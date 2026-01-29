@@ -1,7 +1,5 @@
 """ヒーローのデータモデルを定義するモジュール."""
 
-import os  # 未使用import（ruff F401）
-
 from sqlmodel import Field, SQLModel
 
 
