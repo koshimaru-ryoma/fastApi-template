@@ -19,4 +19,3 @@ class Hero(SQLModel, table=True):
     name: str = Field(index=True)
     age: int | None = Field(default=None, index=True)
     secret_name: str
-
