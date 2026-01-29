@@ -10,10 +10,13 @@
         "ms-python.python",
         "ms-python.vscode-pylance",
         "charliermarsh.ruff",
-        "njpwerner.autodocstring"
+        "ms-python.mypy-type-checker",
+        "njpwerner.autodocstring",
+        "anthropic.claude-code"
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/.venv/bin/python", 
+        "python.defaultInterpreterPath": "/.venv/bin/python",
+        "mypy-type-checker.importStrategy": "fromEnvironment",
         "[python]": {
           "editor.formatOnSave": true,
           "editor.codeActionsOnSave": {
