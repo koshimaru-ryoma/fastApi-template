@@ -1,6 +1,13 @@
 """ヒーローのデータモデルを定義するモジュール."""
 
+import os  # 未使用import（ruff F401）
+
 from sqlmodel import Field, SQLModel
+
+
+def test_type_error() -> str:
+    """型エラーのテスト関数."""
+    return 123  # mypy: 戻り値がstrなのにintを返している
 
 
 class Hero(SQLModel, table=True):
