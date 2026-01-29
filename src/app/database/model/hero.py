@@ -3,11 +3,6 @@
 from sqlmodel import Field, SQLModel
 
 
-def test_type_error() -> str:
-    """型エラーのテスト関数."""
-    return 123  # mypy: 戻り値がstrなのにintを返している
-
-
 class Hero(SQLModel, table=True):
     """ヒーローを表すデータベースモデル.
 
