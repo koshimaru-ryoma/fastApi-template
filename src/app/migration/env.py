@@ -1,11 +1,10 @@
 import asyncio
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
-from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -34,7 +33,7 @@ config.set_main_option("sqlalchemy.url", db_url)
 # target_metadata = mymodel.Base.metadata
 from sqlmodel import SQLModel
 
-# モデルを一括インポート（model/__init__.py で管理）
+# モデルを一括インポート (model/__init__.py で管理)
 import app.database.model  # noqa: F401
 
 target_metadata = SQLModel.metadata
@@ -70,6 +69,7 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
+    """Execute migrations using provided connection."""
     context.configure(connection=connection, target_metadata=target_metadata)
 
     with context.begin_transaction():
@@ -77,11 +77,11 @@ def do_run_migrations(connection: Connection) -> None:
 
 
 async def run_async_migrations() -> None:
-    """In this scenario we need to create an Engine
+    """Run migrations in async mode.
+
+    In this scenario we need to create an Engine
     and associate a connection with the context.
-
     """
-
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
@@ -96,7 +96,6 @@ async def run_async_migrations() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-
     asyncio.run(run_async_migrations())
 
 
