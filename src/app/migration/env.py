@@ -33,7 +33,9 @@ config.set_main_option("sqlalchemy.url", db_url)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from sqlmodel import SQLModel
-from app.database.model.hero import Hero
+
+# モデルを一括インポート（model/__init__.py で管理）
+import app.database.model  # noqa: F401
 
 target_metadata = SQLModel.metadata
 
