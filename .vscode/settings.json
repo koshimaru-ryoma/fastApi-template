@@ -1,0 +1,7 @@
+{
+    "python-envs.pythonProjects": [],
+    "remote.autoForwardPortsFallback": 0,
+    "files.exclude": {
+        "**/.mypy_cache": true
+    }
+}

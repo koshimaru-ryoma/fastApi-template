@@ -18,7 +18,6 @@ ENV/
 
 # IDE
 .idea/
-.vscode/
 *.swp
 *.swo
 *~
@@ -44,6 +43,9 @@ src/app/migration/versions/*.pyc
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Mypy
+.mypy_cache/
 
 # Build
 dist/
